@@ -2,7 +2,7 @@
 
 A beautiful, dark-themed web application for tracking San Francisco Giants games at Oracle Park with live scores, real-time inning updates, and smart game end time predictions.
 
-![SF Giants Logo](https://a.espncdn.com/i/teamlogos/mlb/500/sf.png)
+<img src="https://a.espncdn.com/i/teamlogos/mlb/500/sf.png" alt="SF Giants Logo" width="80" height="80">
 
 ## ✨ Features
 
