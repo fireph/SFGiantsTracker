@@ -1,0 +1,406 @@
+/* SF Giants Brand Colors - Dark Mode */
+:root {
+    --giants-orange: #FF6B35;
+    --giants-orange-bright: #FF8C42;
+    --giants-black: #1A1A1A;
+    --giants-black-light: #2D2D2D;
+    --giants-cream: #F5F5DC;
+    --giants-gold: #FFD700;
+    --giants-gold-dark: #B8860B;
+    --background-dark: #0F0F0F;
+    --background-secondary: #1E1E1E;
+    --card-background: #252525;
+    --text-light: #E5E5E5;
+    --text-secondary: #B8B8B8;
+    --shadow-dark: rgba(0, 0, 0, 0.4);
+    --shadow-glow: rgba(255, 107, 53, 0.2);
+    --border-dark: rgba(255, 255, 255, 0.1);
+    --accent-gradient: linear-gradient(135deg, var(--giants-orange), var(--giants-gold));
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, var(--background-dark) 0%, var(--giants-black) 100%);
+    color: var(--text-light);
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, var(--shadow-glow) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+header {
+    background: linear-gradient(135deg, var(--giants-black-light) 0%, var(--giants-black) 100%);
+    color: var(--giants-cream);
+    padding: 3rem 0;
+    text-align: center;
+    box-shadow: 0 8px 32px var(--shadow-dark);
+    border-bottom: 2px solid var(--giants-orange);
+    position: relative;
+    overflow: hidden;
+}
+
+
+header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-shadow: 0 2px 8px var(--shadow-dark);
+    position: relative;
+    z-index: 1;
+}
+
+.giants-logo {
+    font-size: 4rem;
+    animation: glow 3s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 10px var(--giants-orange));
+}
+
+@keyframes glow {
+    0% {
+        filter: drop-shadow(0 0 10px var(--giants-orange));
+    }
+    100% {
+        filter: drop-shadow(0 0 20px var(--giants-orange-bright));
+    }
+}
+
+.tagline {
+    font-size: 1.4rem;
+    opacity: 0.9;
+    font-style: italic;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 1px 4px var(--shadow-dark);
+}
+
+/* Main Content */
+main {
+    padding: 2rem 0;
+}
+
+.game-section {
+    margin-bottom: 3rem;
+}
+
+.game-section h2 {
+    color: var(--text-light);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    font-weight: 600;
+    text-shadow: 0 2px 8px var(--shadow-dark);
+}
+
+.game-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: var(--accent-gradient);
+    border-radius: 2px;
+    box-shadow: 0 0 10px var(--shadow-glow);
+}
+
+/* Game Cards */
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.game-card {
+    background: linear-gradient(135deg, var(--card-background) 0%, var(--giants-black-light) 100%);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 12px 40px var(--shadow-dark);
+    border: 2px solid var(--border-dark);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.game-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--accent-gradient);
+    box-shadow: 0 0 15px var(--shadow-glow);
+}
+
+.game-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 60px var(--shadow-dark);
+    border-color: var(--giants-orange);
+}
+
+.game-card.current {
+    border-color: var(--giants-orange);
+    background: linear-gradient(135deg, var(--giants-black-light) 0%, var(--card-background) 100%);
+    box-shadow: 0 0 30px var(--shadow-glow);
+}
+
+.game-card.current::before {
+    height: 6px;
+    background: var(--giants-orange);
+    box-shadow: 0 0 20px var(--giants-orange);
+}
+
+.game-info {
+    text-align: center;
+}
+
+.teams {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    max-width: 300px;
+    margin: 0 auto 1.5rem;
+}
+
+.home-team, .away-team {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    justify-content: center;
+    width: 100%;
+}
+
+.home-team {
+    color: var(--giants-orange);
+}
+
+.team-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.vs {
+    font-size: 1rem;
+    color: var(--giants-gold);
+    font-weight: bold;
+    text-shadow: 0 0 10px var(--giants-gold);
+    text-align: center;
+}
+
+.score {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--giants-orange);
+    text-shadow: 0 0 15px var(--giants-orange);
+}
+
+.game-status {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-score {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--giants-black-light);
+    padding: 0.8rem 1.2rem;
+    border-radius: 15px;
+    border: 2px solid var(--giants-orange);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-light);
+}
+
+.score-logo {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.score-separator {
+    color: var(--giants-gold);
+    font-weight: bold;
+    margin: 0 0.3rem;
+}
+
+.inning {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-left: 1rem;
+    padding: 0.3rem 0.8rem;
+    background: var(--giants-orange);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--giants-black);
+}
+
+#inning-half-arrow {
+    font-size: 1rem;
+    color: var(--giants-black);
+}
+
+.game-date {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.game-time {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.start-time, .end-time {
+    font-size: 1.1rem;
+    color: var(--giants-gold);
+    font-weight: 500;
+}
+
+.start-time {
+    font-weight: 700;
+}
+
+/* Loading and Empty States */
+.loading {
+    text-align: center;
+    font-size: 1.4rem;
+    color: var(--giants-gold);
+    padding: 4rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.hidden {
+    display: none;
+}
+
+#no-games {
+    text-align: center;
+    padding: 4rem;
+    background: linear-gradient(135deg, var(--card-background) 0%, var(--giants-black-light) 100%);
+    border-radius: 20px;
+    box-shadow: 0 12px 40px var(--shadow-dark);
+    border: 2px solid var(--border-dark);
+}
+
+#no-games h2 {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+
+#no-games p {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(135deg, var(--giants-black) 0%, var(--background-dark) 100%);
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 3rem 0;
+    margin-top: 4rem;
+    border-top: 2px solid var(--border-dark);
+}
+
+footer p {
+    margin-bottom: 0.8rem;
+    opacity: 0.8;
+    font-size: 0.95rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .giants-logo {
+        font-size: 2.5rem;
+    }
+    
+    .tagline {
+        font-size: 1rem;
+    }
+    
+    .games-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .game-card {
+        padding: 1rem;
+    }
+    
+    .teams {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .game-section h2 {
+        font-size: 1.5rem;
+    }
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SF Giants @ Oracle Park - Game Schedule</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>
+                <span class="giants-logo">⚾</span>
+                SF Giants @ Oracle Park
+            </h1>
+            <p class="tagline">Your home for Giants games at Oracle Park</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="current-game" class="game-section hidden">
+            <h2>Game Happening Now</h2>
+            <div class="game-card current">
+                <div class="game-info">
+                    <div class="game-status">
+                        <div class="game-score">
+                            <img src="" alt="Away Team" class="score-logo" id="away-score-logo">
+                            <span id="away-score">0</span>
+                            <span class="score-separator">-</span>
+                            <span id="home-score">0</span>
+                            <img src="" alt="SF Giants" class="score-logo" id="home-score-logo">
+                            <div class="inning">
+                                <span id="inning-half-arrow">▼</span>
+                                <span id="current-inning-number">1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="teams">
+                        <span class="home-team">
+                            <img src="" alt="SF Giants" class="team-logo" id="giants-logo">
+                            SF Giants
+                        </span>
+                        <span class="vs">vs</span>
+                        <span class="away-team" id="current-opponent">
+                            <img src="" alt="Away Team" class="team-logo" id="current-opponent-logo">
+                            <span id="current-opponent-name"></span>
+                        </span>
+                    </div>
+                    <div class="game-time">
+                        <span class="start-time">Started: <span id="current-start-time"></span></span>
+                        <span class="end-time">Est. End: <span id="current-end-time"></span></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="upcoming-games" class="game-section">
+            <h2>Upcoming Games at Oracle Park</h2>
+            <div id="games-container" class="games-grid">
+                <div class="loading">Loading games...</div>
+            </div>
+        </section>
+
+        <section id="no-games" class="game-section hidden">
+            <h2>No Upcoming Home Games</h2>
+            <p>There are currently no upcoming SF Giants games scheduled at Oracle Park.</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 SF Giants Schedule - Unofficial Fan Site</p>
+            <p>Data provided by MLB StatsAPI</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
