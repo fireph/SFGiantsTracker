@@ -383,7 +383,15 @@ class GiantsSchedule {
             minute: '2-digit',
             hour12: true
         });
-        return `${timeString} PT`;
+        
+        // Get the timezone abbreviation (PST or PDT)
+        const timeZoneString = date.toLocaleTimeString('en-US', {
+            timeZone: 'America/Los_Angeles',
+            timeZoneName: 'short'
+        });
+        const timeZoneAbbr = timeZoneString.split(' ').pop(); // Extract PST/PDT
+        
+        return `${timeString} ${timeZoneAbbr}`;
     }
 
     roundToNearest5Minutes(date) {
