@@ -368,6 +368,7 @@ class GiantsSchedule {
 
     formatGameDate(date) {
         return date.toLocaleDateString('en-US', {
+            timeZone: 'America/Los_Angeles',
             weekday: 'long',
             year: 'numeric',
             month: 'long',
@@ -376,11 +377,13 @@ class GiantsSchedule {
     }
 
     formatGameTime(date) {
-        return date.toLocaleTimeString('en-US', {
+        const timeString = date.toLocaleTimeString('en-US', {
+            timeZone: 'America/Los_Angeles',
             hour: 'numeric',
             minute: '2-digit',
             hour12: true
         });
+        return `${timeString} PT`;
     }
 
     roundToNearest5Minutes(date) {
