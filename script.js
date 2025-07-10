@@ -5,7 +5,10 @@ const ORACLE_PARK_VENUE_ID = 2395;
 // API endpoints
 const MLB_API_BASE = 'https://statsapi.mlb.com/api/v1';
 
-// Game duration estimate (average MLB game is about 3 hours)
+// Game duration estimate (show games for 12 hours after start to catch long games, delays, etc.)
+const GAME_DISPLAY_DURATION = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
+
+// Average game duration for time estimates (average MLB game is about 3 hours)
 const AVERAGE_GAME_DURATION = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
 
 // Team logo mapping (using ESPN's logo URLs which are more reliable)
@@ -123,8 +126,9 @@ class GiantsSchedule {
 
     async loadGames() {
         try {
-            // Get today's date and next 60 days
-            const startDate = this.formatDate(this.today);
+            // Get yesterday's date to catch games that started earlier and next 60 days
+            const yesterday = new Date(this.today.getTime() - (24 * 60 * 60 * 1000));
+            const startDate = this.formatDate(yesterday);
             const endDate = this.formatDate(new Date(this.today.getTime() + (60 * 24 * 60 * 60 * 1000)));
 
             // Fetch Giants schedule
@@ -184,7 +188,7 @@ class GiantsSchedule {
         const now = new Date();
         return games.find(game => {
             const gameDate = new Date(game.gameDate);
-            const gameEndEstimate = new Date(gameDate.getTime() + AVERAGE_GAME_DURATION);
+            const gameEndEstimate = new Date(gameDate.getTime() + GAME_DISPLAY_DURATION);
             return gameDate <= now && now <= gameEndEstimate;
         });
     }
@@ -216,7 +220,7 @@ class GiantsSchedule {
             // Apply team color to opponent
             const opponentContainer = document.getElementById('current-opponent');
             opponentContainer.style.color = this.getTeamColor(game.teams.away.team.id);
-            document.getElementById('current-start-time').textContent = this.formatGameTime(game.gameDate);
+            document.getElementById('current-start-time').textContent = this.formatGameTime(new Date(game.gameDate));
             
             // Store current game for reference
             this.currentGame = game;
@@ -240,11 +244,22 @@ class GiantsSchedule {
             const response = await fetch(liveDataUrl);
             const data = await response.json();
             
-            if (data.currentInning) {
+            // Check if game is completed - 3 outs in bottom of 9th (or later) means game over
+            const isGameCompleted = data.currentInning >= 9 && 
+                                   data.inningHalf === 'Bottom' && 
+                                   data.outs === 3;
+            
+            if (data.currentInning || (data.teams && (data.teams.home.runs !== undefined || data.teams.away.runs !== undefined))) {
                 // Update inning display with arrow
-                const arrow = data.inningHalf === 'Top' ? '▲' : '▼';
-                document.getElementById('inning-half-arrow').textContent = arrow;
-                document.getElementById('current-inning-number').textContent = data.currentInning;
+                if (data.currentInning && !isGameCompleted) {
+                    const arrow = data.inningHalf === 'Top' ? '▲' : '▼';
+                    document.getElementById('inning-half-arrow').textContent = arrow;
+                    document.getElementById('current-inning-number').textContent = data.currentInning;
+                } else {
+                    // Game is completed - show "Ended"
+                    document.getElementById('inning-half-arrow').textContent = '';
+                    document.getElementById('current-inning-number').textContent = 'Ended';
+                }
                 
                 // Update scores
                 const homeScore = data.teams.home.runs || 0;
@@ -253,10 +268,19 @@ class GiantsSchedule {
                 document.getElementById('home-score').textContent = homeScore;
                 document.getElementById('away-score').textContent = awayScore;
                 
-                // Calculate smarter end time based on inning progress
-                const estimatedEndTime = this.calculateGameEndTime(data.currentInning, data.inningHalf, this.currentGame.gameDate);
-                const roundedEndTime = this.roundToNearest5Minutes(estimatedEndTime);
-                document.getElementById('current-end-time').textContent = this.formatGameTime(roundedEndTime);
+                // Calculate end time
+                if (data.currentInning && !isGameCompleted) {
+                    const gameStartTime = new Date(this.currentGame.gameDate);
+                    const estimatedEndTime = this.calculateGameEndTime(data.currentInning, data.inningHalf, gameStartTime);
+                    const roundedEndTime = this.roundToNearest5Minutes(estimatedEndTime);
+                    document.getElementById('current-end-time').textContent = this.formatGameTime(roundedEndTime);
+                } else {
+                    // For completed games, show a reasonable end time estimate
+                    // Most games end between 2.5-4 hours, use 3.25 hours as better estimate
+                    const gameStartTime = new Date(this.currentGame.gameDate);
+                    const gameEndTime = new Date(gameStartTime.getTime() + (3.25 * 60 * 60 * 1000)); // 3.25 hours
+                    document.getElementById('current-end-time').textContent = this.formatGameTime(gameEndTime);
+                }
             } else {
                 // Fallback for games without live data
                 document.getElementById('inning-half-arrow').textContent = '▼';
