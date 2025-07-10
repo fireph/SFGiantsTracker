@@ -143,6 +143,20 @@ main {
     margin-top: 2rem;
 }
 
+.game-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.game-link:hover,
+.game-link:visited,
+.game-link:focus,
+.game-link:active {
+    text-decoration: none;
+    color: inherit;
+}
+
 .game-card {
     background: linear-gradient(135deg, var(--card-background) 0%, var(--giants-black-light) 100%);
     border-radius: 20px;

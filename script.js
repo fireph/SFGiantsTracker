@@ -371,25 +371,28 @@ class GiantsSchedule {
         const giantsLogoUrl = this.getTeamLogo(GIANTS_TEAM_ID);
         const opponentLogoUrl = this.getTeamLogo(game.teams.away.team.id);
         const opponentColor = this.getTeamColor(game.teams.away.team.id);
+        const mlbUrl = `https://www.mlb.com/gameday/${game.gamePk}/live`;
 
         card.innerHTML = `
-            <div class="game-info">
-                <div class="teams">
-                    <span class="home-team">
-                        <img src="${giantsLogoUrl}" alt="SF Giants" class="team-logo">
-                        SF Giants
-                    </span>
-                    <span class="vs">vs</span>
-                    <span class="away-team" style="color: ${opponentColor};">
-                        <img src="${opponentLogoUrl}" alt="${opponent}" class="team-logo">
-                        ${opponent}
-                    </span>
+            <a href="${mlbUrl}" target="_blank" rel="noopener noreferrer" class="game-link">
+                <div class="game-info">
+                    <div class="teams">
+                        <span class="home-team">
+                            <img src="${giantsLogoUrl}" alt="SF Giants" class="team-logo">
+                            SF Giants
+                        </span>
+                        <span class="vs">vs</span>
+                        <span class="away-team" style="color: ${opponentColor};">
+                            <img src="${opponentLogoUrl}" alt="${opponent}" class="team-logo">
+                            ${opponent}
+                        </span>
+                    </div>
+                    <div class="game-date">${this.formatGameDate(gameDate)}</div>
+                    <div class="game-time">
+                        <span class="start-time">${this.formatGameTime(gameDate)}</span>
+                    </div>
                 </div>
-                <div class="game-date">${this.formatGameDate(gameDate)}</div>
-                <div class="game-time">
-                    <span class="start-time">${this.formatGameTime(gameDate)}</span>
-                </div>
-            </div>
+            </a>
         `;
 
         return card;
